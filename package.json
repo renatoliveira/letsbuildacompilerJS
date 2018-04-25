@@ -2,7 +2,6 @@
   "name": "ruslansinterpretertutorial",
   "version": "1.0.0",
   "description": "Ruslan's interpreter, followed in its series. This one written in JavaScript.",
-  "main": "main.js",
   "license": "MIT",
   "private": false
 }
