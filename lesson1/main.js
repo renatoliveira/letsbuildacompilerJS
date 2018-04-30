@@ -4,7 +4,7 @@
  * 
  * The original text can be found at https://ruslanspivak.com/lsbasi-part1/
  *
- * To run this program simply type "node main1.js" in your console. You
+ * To run this program simply type "node main.js" in your console. You
  * should have NodeJS installed.
  */
 const readline = require('readline')
