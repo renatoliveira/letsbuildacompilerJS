@@ -4,9 +4,20 @@
  * 
  * The original text can be found at https://ruslanspivak.com/lsbasi-part1/
  *
- * To run this program simply type "node main.js" in your console. You
+ * To run this program simply type "node exercises.js" in your console. You
  * should have NodeJS installed.
+ *
+ * - Modify the code to allow multiple-digit integers in the input, for example
+ *  “12+3”
+ * - Add a method that skips whitespace characters so that your calculator can
+ * handle inputs with whitespace characters like ” 12 + 3”
+ * - Modify the code and instead of ‘+’ handle ‘-‘ to evaluate subtractions
+ * like “7-5”
  */
+module.exports.Interpreter = (param) => {
+    return new Interpreter(param)
+}
+
 const readline = require('readline')
 
 const rl = readline.createInterface({
@@ -26,7 +37,7 @@ const TOKEN = {
     EOF: 2
 }
 
-export class Token {
+class Token {
     constructor(type, val) {
         this.type = type
         this.value = val
@@ -37,7 +48,7 @@ export class Token {
     }
 }
 
-export class Interpreter {
+class Interpreter {
     constructor(content) {
         this.text = content
         this.position = 0
@@ -96,7 +107,13 @@ export class Interpreter {
      */
     eat (tokenType) {
         if (this.currentToken.type === tokenType) {
-            this.currentToken = this.getNextToken()
+            const nextToken = this.getNextToken()
+            
+            if (nextToken.type === this.currentToken.type) {
+                this.currentToken += nextToken
+            } else {
+                this.currentToken = nextToken
+            }
         } else {
             this.error();
         }
@@ -167,4 +184,8 @@ function main() {
         console.error(e)
     }
 }
-main()
+
+if (require.main === module) {
+    console.log('HLELO')
+    main()
+}

@@ -3,5 +3,11 @@
   "version": "1.0.0",
   "description": "Ruslan's interpreter, followed in its series. This one written in JavaScript.",
   "license": "MIT",
-  "private": false
+  "private": false,
+  "dependencies": {
+    "mocha": "^5.1.1"
+  },
+  "scripts": {
+    "test": "mocha --exit"
+  }
 }
