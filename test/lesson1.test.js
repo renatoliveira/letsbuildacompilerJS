@@ -9,8 +9,12 @@ describe('Plus operator.', () => {
         it('Should add the two numbers.', () => {
             var i = intr.Interpreter('1+2')
             var r = i.expr()
-            console.log(r)
             assert.equal(r, 3)
+        }),
+        it('Should add multiple-digit numbers.', () => {
+            var i = intr.Interpreter('10+2')
+            var r = i.expr()
+            assert.equal(r, 12)
         })
     })
 })
