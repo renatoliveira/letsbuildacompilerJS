@@ -55,8 +55,8 @@ class Interpreter {
         this.currentToken = undefined
     }
 
-    error () {
-        throw Error('Error parsing input')
+    error (msg) {
+        throw Error(msg)
     }
 
     /**
@@ -82,9 +82,20 @@ class Interpreter {
          * what token to create based on the single character. 
          */
         var currentCharacter = text[this.position]
+        var nextCharacter = text[this.position + 1]
 
         if (!isNaN(currentCharacter)) {
             this.advance()
+            while (true) {
+                if (!isNaN(nextCharacter)) {
+                    currentCharacter = currentCharacter + '' + nextCharacter
+                    this.advance()
+                    nextCharacter = text[this.position]
+                    continue
+                } else {
+                    break
+                }
+            }
             return new Token(TOKEN.INTEGER, currentCharacter)
         } else if (isNaN(currentCharacter)) {
             if (currentCharacter === '+') {
@@ -108,14 +119,13 @@ class Interpreter {
     eat (tokenType) {
         if (this.currentToken.type === tokenType) {
             const nextToken = this.getNextToken()
-            
             if (nextToken.type === this.currentToken.type) {
                 this.currentToken += nextToken
             } else {
                 this.currentToken = nextToken
             }
         } else {
-            this.error();
+            this.error(`Different token type. 'currentToken.type': ${this.currentToken.type}, 'tokenType': ${tokenType}`);
         }
     }
 
