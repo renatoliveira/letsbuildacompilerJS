@@ -34,6 +34,7 @@ const rl = readline.createInterface({
 const TOKEN = {
     INTEGER: 0,
     PLUS: 1,
+    MINUS: 3,
     EOF: 2
 }
 
@@ -101,6 +102,9 @@ class Interpreter {
             if (currentCharacter === '+') {
                 this.advance()
                 return new Token(TOKEN.PLUS, currentCharacter)
+            } else if (currentCharacter === '-') {
+                this.advance()
+                return new Token(TOKEN.MINUS, currentCharacter)
             }
         } else {
             console.log(typeof(currentCharacter))
@@ -142,7 +146,13 @@ class Interpreter {
 
         // we expect the current token to be a '+' token
         var op = this.currentToken
-        this.eat(TOKEN.PLUS)
+        if (this.currentToken.type === TOKEN.PLUS) {
+            this.eat(TOKEN.PLUS)
+        } else if (this.currentToken.type === TOKEN.MINUS) {
+            this.eat(TOKEN.MINUS)
+        } else {
+            this.error('Token not found.')
+        }
 
         // we expect the current token to be a single-digit integer
         var right = this.currentToken
@@ -155,7 +165,13 @@ class Interpreter {
         // return the result of adding two integers, thus
         // effectively interpreting client input
 
-        return this.getNumberValue(left.value) + this.getNumberValue(right.value)
+        if (op.type === TOKEN.PLUS) {
+            return this.getNumberValue(left.value) + this.getNumberValue(right.value)
+        } else if (op.type === TOKEN.MINUS) {
+            return this.getNumberValue(left.value) - this.getNumberValue(right.value)
+        } else {
+            this.error(`Calc error. op: ${op} | Left: ${left.value} | Right: ${right.value}`)
+        }
     }
 
     /**
